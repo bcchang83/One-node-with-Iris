@@ -1,0 +1,37 @@
+import math
+import matplotlib.pyplot as plt
+
+
+def sigmoid_func(x):
+    return 1 / (1 + math.exp(-x))
+
+
+def MSE(d, y):
+    return 0.5 * (y - d) ** 2
+
+
+# initial condition
+x = 1.0
+w = 2.0
+b = 2.0
+lr = 0.15
+d = 0.0
+
+epoch = 300
+loss_list = []
+init_y = sigmoid_func(w * x + b)
+for _ in range(epoch):
+    y = sigmoid_func(w * x + b)
+    loss_list.append(MSE(d, y))
+    w = w - lr * (y - d) * y * (1 - y) * x
+    b = b - lr * (y - d) * y * (1 - y)
+
+plt.figure()
+plt.title(
+    "One node example with MSE and Sigmoid\n final w = {:.3}, final b = {:.3}, final y = {:.3}, initial y = {:.3}".format(
+        w, b, y, init_y
+    )
+)
+plt.xlabel("Epoch")
+plt.ylabel("Cost")
+plt.plot(loss_list)
